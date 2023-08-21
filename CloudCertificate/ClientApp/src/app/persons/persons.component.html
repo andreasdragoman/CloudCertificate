@@ -1,0 +1,16 @@
+<h1 id="tableLabel">Persons</h1>
+
+<p *ngIf="!personsList?.length"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="personsList.length">
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of personsList">
+        <td>{{ person }}</td>
+      </tr>
+    </tbody>
+  </table>
