@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
 	<RuntimeFrameworkVersion>7.0.0</RuntimeFrameworkVersion>
+	<RollForward>disable</RollForward>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:44450</SpaProxyServerUrl>
