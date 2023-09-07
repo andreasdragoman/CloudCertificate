@@ -1,4 +1,5 @@
 using CloudCertificate.Configs;
+using CloudCertificate.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddTransient<IQueueService, QueueService>();
 
 var app = builder.Build();
 
@@ -24,7 +26,6 @@ app.UseCookiePolicy(new CookiePolicyOptions
 });
 app.UseStaticFiles();
 app.UseRouting();
-
 
 
 app.MapControllerRoute(
