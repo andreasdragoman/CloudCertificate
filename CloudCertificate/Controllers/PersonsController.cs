@@ -38,7 +38,7 @@ namespace CloudCertificate.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(PersonModel person)
         {
-            await _queueService.SendMessageAsync(person, "personqueue");
+            await _queueService.SendMessageAsync(person.FirstName, "personqueue");
             return Ok();
         }
     }
