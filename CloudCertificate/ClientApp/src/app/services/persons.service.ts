@@ -8,10 +8,10 @@ export class PersonService {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
     getPersons(): Observable<string[]> {
-        return this.http.get<string[]>(this.baseUrl + 'persons/get');//https://localhost:44395/persons/get
+        return this.http.get<string[]>(this.baseUrl + 'persons/get');// https://localhost:44395/persons/get
     }
 
     addPerson(person: Person): Observable<any> {
-        return this.http.post(this.baseUrl + 'persons/get', person);//https://localhost:44395/persons/add
+        return this.http.post(this.baseUrl + 'persons/add', person);// https://localhost:44395/persons/add
     }
 }
