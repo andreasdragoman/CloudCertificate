@@ -10,6 +10,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PersonsComponent } from './persons/persons.component';
 import { NotifierModule } from 'angular-notifier';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NotifierModule } from 'angular-notifier';
     HttpClientModule,
     FormsModule,
     NotifierModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
