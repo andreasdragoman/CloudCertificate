@@ -31,7 +31,7 @@ export class PersonsComponent implements OnInit {
     onSubmit() { 
         this.submitted = true;
         this.personService.addPerson(this.personModel).subscribe(result => {
-            this.toastr.success('Hello world!', 'Toastr fun!');
+            this.toastr.success('Cool', 'It worked');
         },
         () => {
             alert('Server error');
