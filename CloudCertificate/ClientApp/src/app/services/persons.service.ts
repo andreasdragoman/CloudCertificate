@@ -2,16 +2,26 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Person } from "../shared/models/person.model";
+import { isDevMode } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
 export class PersonService {
-    constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
+    finalBaseUrl?: string;
+
+    constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+        if(isDevMode()){
+            this.finalBaseUrl = "https://localhost:44395";
+        }
+        else{
+            this.finalBaseUrl = this.baseUrl;
+        }
+    }
 
     getPersons(): Observable<string[]> {
-        return this.http.get<string[]>(this.baseUrl + 'persons/get');// https://localhost:44395/persons/get
+        return this.http.get<string[]>(this.finalBaseUrl + '/persons/get');
     }
 
     addPerson(person: Person): Observable<any> {
-        return this.http.post(this.baseUrl + 'persons/add', person);// https://localhost:44395/persons/add
+        return this.http.post(this.finalBaseUrl + '/persons/add', person);
     }
 }
