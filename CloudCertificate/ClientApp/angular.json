@@ -133,7 +133,6 @@
       }
     }
   },
-  "defaultProject": "CloudCertificate",
   "cli": {
     "analytics": false
   }

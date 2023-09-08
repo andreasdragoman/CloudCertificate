@@ -11,6 +11,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PersonsComponent } from './persons/persons.component';
 import { NotifierModule } from 'angular-notifier';
 import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ToastrModule } from 'ngx-toastr';
     PersonsComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     NotifierModule,
