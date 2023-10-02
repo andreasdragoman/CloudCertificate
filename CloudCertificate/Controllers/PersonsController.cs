@@ -1,5 +1,7 @@
 ﻿using CloudCertificate.Configs;
 using CloudCertificate.Services;
+using Core;
+using CosmosDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -12,27 +14,34 @@ namespace CloudCertificate.Controllers
     public class PersonsController : ControllerBase
     {
         private readonly IQueueService _queueService;
+        private readonly ICosmosDbService _cosmosDbService;
         private AppSettings appSettings { get; set; }
 
-        public PersonsController(IOptions<AppSettings> settings, IQueueService queueService)
+        public PersonsController(IOptions<AppSettings> settings, IQueueService queueService, ICosmosDbService cosmosDbService)
         {
             appSettings = settings.Value;
             _queueService = queueService;
+            _cosmosDbService = cosmosDbService;
         }
 
         [HttpGet]
-        public async Task<IList<string>> Get()
+        public async Task<IList<PersonModel>> Get()
         {
-            var url = appSettings.AzureFunctions.BaseURL;
-            HttpClient client = new()
-            {
-                BaseAddress = new Uri(url)
-            };
+            //var dbService = new PersonsDbService();
+            //return dbService.GetAllPersons();
 
-            var response = await client.GetAsync(appSettings.AzureFunctions.GetPersons);
-            var responseMessage = await response.Content.ReadAsStringAsync();
+            //var url = appSettings.AzureFunctions.BaseURL;
+            //HttpClient client = new()
+            //{
+            //    BaseAddress = new Uri(url)
+            //};
 
-            return JsonConvert.DeserializeObject<List<string>>(responseMessage);
+            //var response = await client.GetAsync(appSettings.AzureFunctions.GetPersons);
+            //var responseMessage = await response.Content.ReadAsStringAsync();
+
+            //return JsonConvert.DeserializeObject<List<string>>(responseMessage);
+
+            return await _cosmosDbService.GetPersons();
         }
 
         [HttpPost]

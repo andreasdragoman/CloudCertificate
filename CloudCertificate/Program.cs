@@ -1,5 +1,6 @@
 using CloudCertificate.Configs;
 using CloudCertificate.Services;
+using CosmosDB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddTransient<IQueueService, QueueService>();
+builder.Services.AddTransient<ICosmosDbService, CosmosDbService>();
 
 var app = builder.Build();
 
