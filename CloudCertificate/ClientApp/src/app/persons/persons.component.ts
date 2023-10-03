@@ -30,6 +30,7 @@ export class PersonsComponent implements OnInit {
         this.submitted = true;
         this.personService.addPerson(this.personModel).subscribe(result => {
             this.toastr.success('Cool', 'It worked');
+            this.personModel = new Person();
             this.refreshPersons();
         },
         () => {
