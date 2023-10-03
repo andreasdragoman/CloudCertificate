@@ -1,9 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { PersonService } from "../services/persons.service";
 import { Person } from "../shared/models/person.model";
 import { FormsModule } from "@angular/forms";
 import { NotifierService } from 'angular-notifier';
 import { ToastrService } from "ngx-toastr";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
     selector:'persons-component',
@@ -13,6 +16,10 @@ export class PersonsComponent implements OnInit {
     private notifier: NotifierService;
 
     public personsList: Person[] = [];
+    dataSource = new MatTableDataSource<Person>();
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator; 
+    displayedColumns: string[] = ['id', 'firstName', 'lastName'];
 
     personModel = new Person();
     submitted = false;
@@ -25,6 +32,11 @@ export class PersonsComponent implements OnInit {
     ngOnInit(): void {
         this.refreshPersons();
     }
+
+    ngAfterViewInit() {
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }
 
     onSubmit() { 
         this.submitted = true;
@@ -41,7 +53,13 @@ export class PersonsComponent implements OnInit {
     refreshPersons() {
         this.personService.getPersons().subscribe(result => {
             this.personsList = result;
+            this.dataSource = new MatTableDataSource<Person>(this.personsList);;
         });
     }
+
+    onChangePage(pe:PageEvent) {
+        console.log(pe.pageIndex);
+        console.log(pe.pageSize);
+      }
 
 }
