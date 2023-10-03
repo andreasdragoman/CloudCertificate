@@ -54,7 +54,7 @@ namespace CloudCertificate.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, PersonModel person)
         {
-            //await _queueService.SendMessageAsync(person, "update-person-queue");
+            await _queueService.SendMessageAsync(person, "update-person-queue");
             return Ok();
         }
 
