@@ -17,8 +17,8 @@ export class PersonService {
         }
     }
 
-    getPersons(): Observable<string[]> {
-        return this.http.get<string[]>(this.finalBaseUrl + '/persons/get');
+    getPersons(): Observable<Person[]> {
+        return this.http.get<Person[]>(this.finalBaseUrl + '/persons/get');
     }
 
     addPerson(person: Person): Observable<any> {

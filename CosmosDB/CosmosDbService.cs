@@ -6,6 +6,7 @@ using SBShared.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace CosmosDB
 {
@@ -19,19 +20,28 @@ namespace CosmosDB
 
         public async Task<List<PersonModel>> GetPersons()
         {
-            var client = new CosmosClient(_settings.ConnectionString);
-            var container = client.GetDatabase(_settings.DatabaseName).GetContainer(_settings.ContainerName);
-            var queryable = container.GetItemLinqQueryable<PersonModel>(requestOptions: new QueryRequestOptions() { MaxItemCount = -1});// default 100, -1 for auto set
             var results = new List<PersonModel>();
-            using FeedIterator<PersonModel> feed = queryable.OrderBy(x => x.FirstName).ToFeedIterator();
-            while (feed.HasMoreResults)
+            try
             {
-                var response = await feed.ReadNextAsync();
-                foreach(PersonModel item in response)
+                var client = new CosmosClient(_settings.ConnectionString);
+                var container = client.GetDatabase(_settings.DatabaseName).GetContainer(_settings.ContainerName);
+                var queryable = container.GetItemLinqQueryable<PersonModel>(requestOptions: new QueryRequestOptions() { MaxItemCount = -1 });// default 100, -1 for auto set
+
+                using FeedIterator<PersonModel> feed = queryable.OrderBy(x => x.FirstName).ToFeedIterator();
+                while (feed.HasMoreResults)
                 {
-                    results.Add(item);
+                    var response = await feed.ReadNextAsync();
+                    foreach (PersonModel item in response)
+                    {
+                        results.Add(item);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                string xxx = ex.Message;
+            }
+            
             return results;
         }
     }

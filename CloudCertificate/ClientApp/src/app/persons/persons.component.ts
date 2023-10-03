@@ -12,7 +12,7 @@ import { ToastrService } from "ngx-toastr";
 export class PersonsComponent implements OnInit {
     private notifier: NotifierService;
 
-    public personsList: string[] = [];
+    public personsList: Person[] = [];
 
     personModel = new Person();
     submitted = false;

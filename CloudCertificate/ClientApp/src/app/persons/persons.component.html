@@ -5,12 +5,14 @@
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="personsList.length">
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let person of personsList">
-        <td>{{ person }}</td>
+        <td>{{ person.firstName }}</td>
+        <td>{{ person.lastName }}</td>
       </tr>
     </tbody>
 </table>
