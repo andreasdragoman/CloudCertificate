@@ -35,9 +35,9 @@ export class PersonsComponent implements OnInit {
     }
 
     ngAfterViewInit() {
+        this.refreshPersons();
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.refreshPersons();
       }
 
     onSubmit() { 
