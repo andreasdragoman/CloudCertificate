@@ -1,6 +1,5 @@
 ﻿using CloudCertificate.Configs;
 using CloudCertificate.Services;
-using Core;
 using CosmosDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -15,11 +14,9 @@ namespace CloudCertificate.Controllers
     {
         private readonly IQueueService _queueService;
         private readonly ICosmosDbService _cosmosDbService;
-        private AppSettings appSettings { get; set; }
 
-        public PersonsController(IOptions<AppSettings> settings, IQueueService queueService, ICosmosDbService cosmosDbService)
+        public PersonsController(IQueueService queueService, ICosmosDbService cosmosDbService)
         {
-            appSettings = settings.Value;
             _queueService = queueService;
             _cosmosDbService = cosmosDbService;
         }
