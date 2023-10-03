@@ -11,6 +11,9 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 builder.Services.Configure<CosmosDbSettings>(builder.Configuration.GetSection("CosmosDbSettings"));
 builder.Services.AddTransient<IQueueService, QueueService>();
 builder.Services.AddTransient<ICosmosDbService, CosmosDbService>();
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -29,6 +32,12 @@ app.UseCookiePolicy(new CookiePolicyOptions
 });
 app.UseStaticFiles();
 app.UseRouting();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 
 app.MapControllerRoute(

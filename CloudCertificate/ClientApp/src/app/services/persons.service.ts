@@ -18,10 +18,18 @@ export class PersonService {
     }
 
     getPersons(): Observable<Person[]> {
-        return this.http.get<Person[]>(this.finalBaseUrl + '/persons/get');
+        return this.http.get<Person[]>(this.finalBaseUrl + '/persons');
     }
 
     addPerson(person: Person): Observable<any> {
-        return this.http.post(this.finalBaseUrl + '/persons/add', person);
+        return this.http.post(this.finalBaseUrl + '/persons', person);
+    }
+
+    updatePerson(person: Person): Observable<any> {
+        return this.http.put(this.finalBaseUrl + '/persons/' + person.id, person);
+    }
+
+    deletePerson(id: string): Observable<any> {
+        return this.http.delete(this.finalBaseUrl + '/persons/' + id);
     }
 }

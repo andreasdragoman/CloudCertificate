@@ -10,7 +10,7 @@ using SBShared.Models;
 namespace CloudCertificate.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     public class PersonsController : ControllerBase
     {
         private readonly IQueueService _queueService;
@@ -51,17 +51,17 @@ namespace CloudCertificate.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(PersonModel person)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(string id, PersonModel person)
         {
-            await _queueService.SendMessageAsync(person, "update-person-queue");
+            //await _queueService.SendMessageAsync(person, "update-person-queue");
             return Ok();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(Guid personId)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string personId)
         {
-            await _queueService.SendMessageAsync(personId, "delete-person-queue");
+            //await _queueService.SendMessageAsync(personId, "delete-person-queue");
             return Ok();
         }
     }

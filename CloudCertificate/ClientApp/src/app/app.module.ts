@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,
+    MatButtonModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
