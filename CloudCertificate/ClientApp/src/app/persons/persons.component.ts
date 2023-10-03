@@ -48,18 +48,18 @@ export class PersonsComponent implements OnInit {
     }
 
     refreshPersons() {
+        this.updatePersonActionStarted = false;
+        this.createNewPersonActionStarted = false;
+        this.currentEditingPersonName = "";
+        this.newPersonModel = new Person();
+        this.editPersonModel = new Person();
         this.personService.getPersons().subscribe(result => {
             this.personsList = result;
             this.dataSource = new MatTableDataSource<Person>(this.personsList);
             this.resLength = this.personsList.length;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.personsTableSort;
-
-            this.updatePersonActionStarted = false;
-            this.createNewPersonActionStarted = false;
-            this.currentEditingPersonName = "";
-            this.newPersonModel = new Person();
-            this.editPersonModel = new Person();
+            this.toastr.success('Cool', 'Refreshed');
         });
     }
 
