@@ -23,6 +23,7 @@ export class PersonsComponent implements OnInit {
 
     personModel = new Person();
     submitted = false;
+    resLength = 0;
 
     constructor (private personService: PersonService, notifierService: NotifierService,
         private toastr: ToastrService) {
@@ -53,7 +54,8 @@ export class PersonsComponent implements OnInit {
     refreshPersons() {
         this.personService.getPersons().subscribe(result => {
             this.personsList = result;
-            this.dataSource = new MatTableDataSource<Person>(this.personsList);;
+            this.dataSource = new MatTableDataSource<Person>(this.personsList);
+            this.resLength = this.personsList.length;
         });
     }
 

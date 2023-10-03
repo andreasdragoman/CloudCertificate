@@ -26,7 +26,8 @@
 </table>
 
 <mat-paginator 
-     [length]="5"
+     [length]="resLength"
+     [pageSize]="5"
      [pageSizeOptions]="[3, 5, 10]"
      [showFirstLastButtons]="true"
      (page)="onChangePage($event)">
