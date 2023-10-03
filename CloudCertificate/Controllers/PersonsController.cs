@@ -50,5 +50,19 @@ namespace CloudCertificate.Controllers
             await _queueService.SendMessageAsync(person, "add-person-queue");
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(PersonModel person)
+        {
+            await _queueService.SendMessageAsync(person, "update-person-queue");
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid personId)
+        {
+            await _queueService.SendMessageAsync(personId, "delete-person-queue");
+            return Ok();
+        }
     }
 }

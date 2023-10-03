@@ -23,18 +23,23 @@ export class PersonsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.personService.getPersons().subscribe(result => {
-            this.personsList = result;
-        });
+        this.refreshPersons();
     }
 
     onSubmit() { 
         this.submitted = true;
         this.personService.addPerson(this.personModel).subscribe(result => {
             this.toastr.success('Cool', 'It worked');
+            this.refreshPersons();
         },
         () => {
             alert('Server error');
+        });
+    }
+
+    refreshPersons() {
+        this.personService.getPersons().subscribe(result => {
+            this.personsList = result;
         });
     }
 
