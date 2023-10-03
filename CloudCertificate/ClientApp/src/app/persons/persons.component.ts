@@ -31,12 +31,13 @@ export class PersonsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.refreshPersons();
+        
     }
 
     ngAfterViewInit() {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.refreshPersons();
       }
 
     onSubmit() { 
