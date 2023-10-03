@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlobExplorer\BlobExplorer.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\CosmosDB\CosmosDB.csproj" />
   </ItemGroup>
