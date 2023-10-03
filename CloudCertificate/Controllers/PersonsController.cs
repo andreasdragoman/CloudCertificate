@@ -59,9 +59,9 @@ namespace CloudCertificate.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string personId)
+        public async Task<IActionResult> Delete(string id)
         {
-            await _queueService.SendMessageAsync(personId, "delete-person-queue");
+            await _queueService.SendMessageAsync(id, "delete-person-queue");
             return Ok();
         }
     }
