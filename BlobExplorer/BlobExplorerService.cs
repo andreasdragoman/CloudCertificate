@@ -17,6 +17,7 @@ namespace BlobExplorer
 
         public async void UploadBlob(string filePath = "./dummy.txt", string blobName = "./dummy.txt")
         {
+            //kk
             var client = GetBlobServiceClient();
             //Console.WriteLine($"Account URI: {client.Uri}");
             var container = GetBlobContainerClient(client);
