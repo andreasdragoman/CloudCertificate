@@ -1,0 +1,16 @@
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    color: white;
+    margin: 0; 
+    padding: 0;
+  }
+  
+  /* Top left text */
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
