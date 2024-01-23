@@ -7,10 +7,12 @@
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>822fc8ac-39e7-4842-a8c0-d55d29555dff</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/c231f389-c62a-4508-a4a5-bb7e2a583331/resourceGroups/default-resorce-group/providers/microsoft.insights/components/andreas</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.16.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.32" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.9" />
