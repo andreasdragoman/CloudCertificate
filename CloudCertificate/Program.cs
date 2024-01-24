@@ -2,6 +2,8 @@ using AzureSQL;
 using CloudCertificate.Configs;
 using CloudCertificate.Services;
 using CosmosDB;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility.EventCounterCollector;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,21 @@ builder.Services.AddScoped<ISqlDbService, SqlDbService>();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddApplicationInsightsTelemetry();
+// The following configures DependencyTrackingTelemetryModule.
+// Similarly, any other default modules can be configured.
+builder.Services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>((module, o) =>
+{
+    module.EnableW3CHeadersInjection = true;
+});
+
+// The following removes all default counters from EventCounterCollectionModule, and adds a single one.
+builder.Services.ConfigureTelemetryModule<EventCounterCollectionModule>((module, o) =>
+{
+    module.Counters.Add(new EventCounterCollectionRequest("System.Runtime", "gen-0-size"));
+});
+
 
 var app = builder.Build();
 
