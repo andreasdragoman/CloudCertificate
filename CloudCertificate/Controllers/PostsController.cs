@@ -6,7 +6,7 @@ using SBShared.Models;
 namespace CloudCertificate.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PostsController
     {
         private readonly IQueueService _queueService;

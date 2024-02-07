@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SBShared", "SBShared\SBShar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosDB", "CosmosDB\CosmosDB.csproj", "{22D384D0-57FE-4DF9-A382-F9E08CC66782}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureSQL", "AzureSQL\AzureSQL.csproj", "{60763394-6736-4B7B-ADE2-BC362CC708DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureSQL", "AzureSQL\AzureSQL.csproj", "{60763394-6736-4B7B-ADE2-BC362CC708DB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlobExplorer", "BlobExplorer\BlobExplorer.csproj", "{E98C7B52-E073-487A-B5F2-0A3D246FEF5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityModule", "IdentityModule\IdentityModule.csproj", "{479F9DDE-ABA2-40A7-9978-30D96FF8DFC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E98C7B52-E073-487A-B5F2-0A3D246FEF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E98C7B52-E073-487A-B5F2-0A3D246FEF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E98C7B52-E073-487A-B5F2-0A3D246FEF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{479F9DDE-ABA2-40A7-9978-30D96FF8DFC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{479F9DDE-ABA2-40A7-9978-30D96FF8DFC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{479F9DDE-ABA2-40A7-9978-30D96FF8DFC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{479F9DDE-ABA2-40A7-9978-30D96FF8DFC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

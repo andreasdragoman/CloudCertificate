@@ -15,6 +15,7 @@ export class PersonService {
         else{
             this.finalBaseUrl = this.baseUrl;
         }
+        this.finalBaseUrl += "/api";
     }
 
     getPersons(): Observable<Person[]> {

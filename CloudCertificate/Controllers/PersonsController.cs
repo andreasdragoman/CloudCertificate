@@ -1,6 +1,7 @@
 ﻿using CloudCertificate.Configs;
 using CloudCertificate.Services;
 using CosmosDB;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -8,8 +9,9 @@ using SBShared.Models;
 
 namespace CloudCertificate.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PersonsController : ControllerBase
     {
         private readonly IQueueService _queueService;

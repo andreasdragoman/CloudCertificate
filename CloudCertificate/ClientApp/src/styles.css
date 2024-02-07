@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
+
+@import url('assets/css/common.css');
+
 a {
   color: #0366d6;
 }
@@ -22,4 +25,29 @@ code {
 * {
   margin: 0 ;
   padding:0;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: transparent;
+}
+
+html
+{
+ margin:0px;
+ height:100%;
+ width:100%;
+ background:url('assets/568500.jpg')no-repeat center center fixed; 
+ -webkit-background-size:cover;
+ -o-background-size:cover;
+ -moz-background-size:cover;
+ background-size:cover;
+}
+
+.cdk-visually-hidden {
+  height: 0;
 }
