@@ -127,27 +127,30 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute(
+//        name: "default",
+//        pattern: "{controller}/{action=Index}/{id?}");
+//});
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller}/{action=Index}/{id?}");
-});
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
 
 
-app.UseSpa(spa =>
-{
-    // To learn more about options for serving an Angular SPA from ASP.NET Core,
-    // see https://go.microsoft.com/fwlink/?linkid=864501
+//app.UseSpa(spa =>
+//{
+//    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+//    // see https://go.microsoft.com/fwlink/?linkid=864501
 
-    spa.Options.SourcePath = "ClientApp";
+//    spa.Options.SourcePath = "ClientApp";
 
-    if (app.Environment.IsDevelopment())
-    {
-        spa.UseAngularCliServer(npmScript: "start");
-    }
-});
+//    if (app.Environment.IsDevelopment())
+//    {
+//        spa.UseAngularCliServer(npmScript: "start");
+//    }
+//});
 
 app.MapFallbackToFile("index.html");
 

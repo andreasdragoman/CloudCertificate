@@ -11,7 +11,7 @@ export class AccountService {
 
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         if(isDevMode()){
-            this.finalBaseUrl = "http://localhost:44395";
+            this.finalBaseUrl = "https://localhost:44395";
         }
         else{
             this.finalBaseUrl = this.baseUrl;
