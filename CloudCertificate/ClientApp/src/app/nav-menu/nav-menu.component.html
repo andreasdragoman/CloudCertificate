@@ -3,7 +3,7 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3"
   >
     <div class="container-fluid" style="margin-left: 20px; margin-right: 20px;">
-      <a class="navbar-brand h1" [routerLink]="['/']">Andreas</a>
+      <a class="navbar-brand h1" [routerLink]="['/']" style="font-size: 30px;">Andreas</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -32,9 +32,21 @@
               >Persons</a
             >
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" style="margin-left: 20px;">
+          <li *ngIf="!isUserLoggedIn" class="nav-item" [routerLinkActive]="['link-active']" style="margin-left: 20px;">
             <a class="nav-link h1" [routerLink]="['/login']"
               >Login</a
+            >
+          </li>
+          <li *ngIf="isUserLoggedIn" class="nav-item" [routerLinkActive]="['link-active']" style="margin-left: 20px;">
+            <div *ngIf="isUserLoggedIn" class="nav-link h1">
+              <h4 *ngIf="isUserLoggedIn" style="margin-top: 5px;margin-bottom: 0;">
+                Hello, {{fullname}}
+              </h4>
+            </div>
+          </li>
+          <li *ngIf="isUserLoggedIn" class="nav-item" style="margin-left: 20px;">
+            <a class="nav-link h1" (click)="logout()" style="cursor: pointer;"
+              >Logout</a
             >
           </li>
         </ul>

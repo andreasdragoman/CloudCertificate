@@ -1,10 +1,12 @@
 ﻿using IdentityModule;
 using IdentityModule.Models;
 using IdentityModule.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -41,7 +43,7 @@ namespace CloudCertificate.Controllers
                 //return LocalRedirect(returnUrl);
                 return Ok(new
                 {
-                    Token = CreateJwtToken(user)
+                    Token = await CreateJwtToken(user)
                 });
             }
             return NotFound();
@@ -63,13 +65,14 @@ namespace CloudCertificate.Controllers
 
                 if (_userManager.Options.SignIn.RequireConfirmedAccount)
                 {
-                    return RedirectToPage("RegisterConfirmation", new { email = request.Email });
+                    //return RedirectToPage("RegisterConfirmation", new { email = request.Email });
+                    return Ok();
                 }
                 else
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
-                    //return Ok();
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //return LocalRedirect(returnUrl);
+                    return Ok();
                 }
             }
             return BadRequest();
@@ -81,14 +84,14 @@ namespace CloudCertificate.Controllers
             //returnUrl = returnUrl ?? Url.Content("~/");
             var returnUrl = Url.Content("~/");
             await _signInManager.SignOutAsync();
-            if (returnUrl != null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<List<AppUser>> GetAllUsers()
+        {
+            return await _userManager.Users.ToListAsync();
         }
 
         private async Task<string> CreateJwtToken(AppUser user)
@@ -108,7 +111,8 @@ namespace CloudCertificate.Controllers
             var identity = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Role, currentUserRole),
-                new Claim(ClaimTypes.Name, user.Name)
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.GivenName, user.Name)
             });
 
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);

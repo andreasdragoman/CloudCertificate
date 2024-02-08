@@ -34,7 +34,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(option => { 
     option.AddPolicy("MyPolicy", builder =>
     {
-        builder.AllowAnyOrigin().AllowAnyOrigin().AllowAnyHeader();
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     }); 
 });
 
@@ -110,10 +110,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("MyPolicy");
-//app.UseCookiePolicy(new CookiePolicyOptions
-//{
-//    Secure = CookieSecurePolicy.Always,
-//});
+
+//app.UseCors(builder => builder.SetIsOriginAllowed(_ => true).AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    Secure = CookieSecurePolicy.Always,
+});
 app.UseStaticFiles();
 app.UseSpaStaticFiles();
 app.UseRouting();

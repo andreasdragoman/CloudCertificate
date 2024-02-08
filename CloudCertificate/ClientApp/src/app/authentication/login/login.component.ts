@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import ValidateForm from "src/app/helpers/validateForm";
 import { LoginModel } from "src/app/models/authentication/login.model";
 import { AccountService } from "src/app/services/account.service";
+import { UserStoreService } from "src/app/services/user-store.service";
 
 @Component({
     selector:'login-component',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
     constructor(private fb: FormBuilder
         , private accountService: AccountService
         , private toastr: ToastrService
-        , private router: Router) { 
+        , private router: Router
+        , private userStore: UserStoreService) { 
 
     }
     
@@ -48,6 +50,12 @@ export class LoginComponent implements OnInit {
             this.accountService.login(loginModel).subscribe({
                 next: (res) => {
                     this.loginForm.reset();
+                    this.accountService.storeAuthToken(res.token);
+                    //store user info
+                    this.userStore.setFullNameForStore(this.accountService.getFullNameFromToken());
+                    this.userStore.setRoleForStore(this.accountService.getRoleFromToken());
+                    this.userStore.setIsUserLoggedInForStore(true);
+
                     this.toastr.success('Success logging');
                     this.router.navigate(['/']);
                 },
