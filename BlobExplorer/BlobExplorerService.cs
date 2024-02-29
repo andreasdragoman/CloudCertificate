@@ -22,6 +22,11 @@ namespace BlobExplorer
         {
             Console.WriteLine("Uploading to Blob storage as blob.\n");
 
+            if (!Directory.Exists(localPath))
+            {
+                Directory.CreateDirectory(localPath);
+            }
+
             string localFilePath = Path.Combine(localPath, fileName);
             // Write text to the file
             await File.WriteAllTextAsync(localFilePath, "Hello, World!");
