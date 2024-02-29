@@ -20,25 +20,12 @@ namespace CloudCertificate.Controllers
             return await _blobExplorerService.GetBlobsNames();
         }
 
-        [HttpPost("upload")]
-        public async Task<IActionResult> TestUpload()
-        {
-            await _blobExplorerService.UploadBlob();
-            return Ok();
-        }
-
         [HttpPost("upload-file"), DisableRequestSizeLimit]
         public async Task<IActionResult> UploadFile([FromForm]IFormFile file)
         {
             try
             {
-                var folderName = "data";
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-
-                if (!Directory.Exists(pathToSave))
-                {
-                    Directory.CreateDirectory(pathToSave);
-                }
+                var pathToSave = GetDataDirectoryFullPath();
 
                 if (file.Length > 0)
                 {
@@ -49,7 +36,7 @@ namespace CloudCertificate.Controllers
                         file.CopyTo(stream);
                     }
 
-                    await _blobExplorerService.UploadBlob(pathToSave, fileName, fileName, fullPath);
+                    await _blobExplorerService.UploadBlob(fullPath, fileName, fileName);
                     return Ok(new { fullPath });
                 }
                 else
@@ -73,6 +60,12 @@ namespace CloudCertificate.Controllers
         [HttpDelete("delete-all")]
         public async Task<IActionResult> DeleteAllBlobs()
         {
+            await _blobExplorerService.DeleteAllBlobs(GetDataDirectoryFullPath());
+            return Ok();
+        }
+
+        public string GetDataDirectoryFullPath()
+        {
             var folderName = "data";
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
@@ -81,8 +74,7 @@ namespace CloudCertificate.Controllers
                 Directory.CreateDirectory(pathToSave);
             }
 
-            await _blobExplorerService.DeleteAllBlobs(pathToSave);
-            return Ok();
+            return pathToSave;
         }
     }
 }

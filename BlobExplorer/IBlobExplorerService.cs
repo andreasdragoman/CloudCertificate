@@ -6,10 +6,10 @@ namespace BlobExplorer
 {
     public interface IBlobExplorerService
     {
-        Task DeleteBlob(string path, string blobName = "dummy.txt");
+        Task DeleteBlob(string localPath, string blobName);
         Task DeleteAllBlobs(string localPath);
-        Task DownloadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt");
+        Task DownloadBlob(string localPath, string fileName, string blobName);
         Task<List<string>> GetBlobsNames();
-        Task UploadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt", string fullPath = "");
+        Task UploadBlob(string fullPath, string fileName, string blobName);
     }
 }

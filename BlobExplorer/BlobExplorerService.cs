@@ -18,23 +18,10 @@ namespace BlobExplorer
             _settings = settings.Value;
         }
 
-        public async Task UploadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt", string fullPath = "")
+        public async Task UploadBlob(string fullPath, string fileName, string blobName)
         {
-            Console.WriteLine("Uploading to Blob storage as blob.\n");
-
-            //if (!Directory.Exists(localPath))
-            //{
-            //    Directory.CreateDirectory(localPath);
-            //}
-
-            //string localFilePath = Path.Combine(localPath, fileName);
-            // Write text to the file
-            //await File.WriteAllTextAsync(localFilePath, "Hello, World!");
-
             var container = GetBlobContainerClient();
             var blob = GetBlobClient(container, blobName);
-
-            //await blob.UploadAsync(localFilePath, true);
 
             // Open the file and upload its data
             using (FileStream uploadFileStream = File.OpenRead(fullPath))
@@ -42,8 +29,6 @@ namespace BlobExplorer
                 await blob.UploadAsync(uploadFileStream, true);
                 uploadFileStream.Close();
             }
-
-            Console.WriteLine("\nThe file was uploaded. We'll verify by listing the blobs next.");
         }
 
         public async Task<List<string>> GetBlobsNames()
@@ -53,19 +38,17 @@ namespace BlobExplorer
 
             await foreach (var blob in container.GetBlobsAsync())
             {
-                Console.WriteLine($"Blob name: {blob.Name}");
                 blobsNames.Add(blob.Name);
             }
             return blobsNames;
         }
 
-        public async Task DownloadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt")
+        public async Task DownloadBlob(string localPath, string fileName, string blobName)
         {
             BlobContainerClient container = GetBlobContainerClient();
 
             string localFilePath = Path.Combine(localPath, fileName);
             string downloadFilePath = localFilePath.Replace(".txt", "DOWNLOADED.txt");
-            Console.WriteLine("\nDownloading blob to\n\t{0}\n", downloadFilePath);
 
             var blob = container.GetBlobClient(blobName);
 
@@ -77,37 +60,28 @@ namespace BlobExplorer
                 await download.Content.CopyToAsync(downloadFileStream);
                 downloadFileStream.Close();
             }
-
-            Console.WriteLine("Download complete.");
         }
 
-        public async Task DeleteBlob(string path, string blobName = "dummy.txt")
+        public async Task DeleteBlob(string localPath, string blobName)
         {
             BlobContainerClient container = GetBlobContainerClient();
-
-            Console.WriteLine("\n\nDeleting blob container...");
 
             var blob = container.GetBlobClient(blobName);
             await blob.DeleteIfExistsAsync();
 
-            Console.WriteLine("\n\nBlob container deleted.");
-
-            //Console.WriteLine("Deleting the local source and downloaded files...");
-            //string localPath = "./data/";
-            string localFilePath = Path.Combine(path, blobName);
+            string localFilePath = Path.Combine(localPath, blobName);
             if(File.Exists(localFilePath))
             {
                 File.Delete(localFilePath);
             }
-            //Console.WriteLine("Finished cleaning up.");
         }
 
-        public async Task DeleteAllBlobs(string path)
+        public async Task DeleteAllBlobs(string localPath)
         {
             var blobNames = await GetBlobsNames();
             foreach (var blob in blobNames)
             {
-                await DeleteBlob(path, blob);
+                await DeleteBlob(localPath, blob);
             }
         }
 
