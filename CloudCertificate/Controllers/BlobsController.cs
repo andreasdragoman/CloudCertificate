@@ -73,7 +73,15 @@ namespace CloudCertificate.Controllers
         [HttpDelete("delete-all")]
         public async Task<IActionResult> DeleteAllBlobs()
         {
-            await _blobExplorerService.DeleteAllBlobs();
+            var folderName = "data";
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+            if (!Directory.Exists(pathToSave))
+            {
+                Directory.CreateDirectory(pathToSave);
+            }
+
+            await _blobExplorerService.DeleteAllBlobs(pathToSave);
             return Ok();
         }
     }

@@ -81,7 +81,7 @@ namespace BlobExplorer
             Console.WriteLine("Download complete.");
         }
 
-        public async Task DeleteBlob(string blobName = "dummy.txt")
+        public async Task DeleteBlob(string path, string blobName = "dummy.txt")
         {
             BlobContainerClient container = GetBlobContainerClient();
 
@@ -93,8 +93,8 @@ namespace BlobExplorer
             Console.WriteLine("\n\nBlob container deleted.");
 
             //Console.WriteLine("Deleting the local source and downloaded files...");
-            string localPath = "./data/";
-            string localFilePath = Path.Combine(localPath, blobName);
+            //string localPath = "./data/";
+            string localFilePath = Path.Combine(path, blobName);
             if(File.Exists(localFilePath))
             {
                 File.Delete(localFilePath);
@@ -102,13 +102,12 @@ namespace BlobExplorer
             //Console.WriteLine("Finished cleaning up.");
         }
 
-        public async Task DeleteAllBlobs()
+        public async Task DeleteAllBlobs(string path)
         {
-
             var blobNames = await GetBlobsNames();
             foreach (var blob in blobNames)
             {
-                await DeleteBlob(blob);
+                await DeleteBlob(path, blob);
             }
         }
 
