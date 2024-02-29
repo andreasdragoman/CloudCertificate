@@ -19,6 +19,7 @@ import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { TokenInterceptor } from './incerceptors/token.interceptor';
+import { FilesComponent } from './files/files.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { TokenInterceptor } from './incerceptors/token.interceptor';
     HomeComponent,
     PersonsComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    FilesComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { TokenInterceptor } from './incerceptors/token.interceptor';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'view-persons', component: PersonsComponent, canActivate:[AuthGuard] },
+      { path: 'files', component: FilesComponent},
       { path: 'login', component: LoginComponent},
       { path: 'register', component: RegisterComponent}
     ])
