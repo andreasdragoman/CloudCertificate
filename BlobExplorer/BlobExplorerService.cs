@@ -18,13 +18,13 @@ namespace BlobExplorer
             _settings = settings.Value;
         }
 
-        public async Task UploadBlob(string fullPath, string fileName, string blobName)
+        public async Task UploadBlob(string localPath, string fileName, string blobName)
         {
             var container = GetBlobContainerClient();
             var blob = GetBlobClient(container, blobName);
 
             // Open the file and upload its data
-            using (FileStream uploadFileStream = File.OpenRead(fullPath))
+            using (FileStream uploadFileStream = File.OpenRead(localPath))
             {
                 await blob.UploadAsync(uploadFileStream, true);
                 uploadFileStream.Close();

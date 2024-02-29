@@ -51,9 +51,9 @@ namespace CloudCertificate.Controllers
         }
 
         [HttpPost("download")]
-        public async Task<IActionResult> TestDownload()
+        public async Task<IActionResult> Download(string filename)
         {
-            await _blobExplorerService.DownloadBlob();
+            await _blobExplorerService.DownloadBlob(GetDataDirectoryFullPath(), filename, filename);
             return Ok();
         }
 

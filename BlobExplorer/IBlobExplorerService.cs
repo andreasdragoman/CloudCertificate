@@ -10,6 +10,6 @@ namespace BlobExplorer
         Task DeleteAllBlobs(string localPath);
         Task DownloadBlob(string localPath, string fileName, string blobName);
         Task<List<string>> GetBlobsNames();
-        Task UploadBlob(string fullPath, string fileName, string blobName);
+        Task UploadBlob(string localPath, string fileName, string blobName);
     }
 }
