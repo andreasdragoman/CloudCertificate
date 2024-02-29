@@ -29,7 +29,7 @@ namespace BlobExplorer
 
             string localFilePath = Path.Combine(localPath, fileName);
             // Write text to the file
-            await File.WriteAllTextAsync(localFilePath, "Hello, World!");
+            //await File.WriteAllTextAsync(localFilePath, "Hello, World!");
 
             var container = GetBlobContainerClient();
             var blob = GetBlobClient(container, blobName);
