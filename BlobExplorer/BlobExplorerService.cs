@@ -18,16 +18,16 @@ namespace BlobExplorer
             _settings = settings.Value;
         }
 
-        public async Task UploadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt")
+        public async Task UploadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt", string fullPath = "")
         {
             Console.WriteLine("Uploading to Blob storage as blob.\n");
 
-            if (!Directory.Exists(localPath))
-            {
-                Directory.CreateDirectory(localPath);
-            }
+            //if (!Directory.Exists(localPath))
+            //{
+            //    Directory.CreateDirectory(localPath);
+            //}
 
-            string localFilePath = Path.Combine(localPath, fileName);
+            //string localFilePath = Path.Combine(localPath, fileName);
             // Write text to the file
             //await File.WriteAllTextAsync(localFilePath, "Hello, World!");
 
@@ -37,7 +37,7 @@ namespace BlobExplorer
             //await blob.UploadAsync(localFilePath, true);
 
             // Open the file and upload its data
-            using (FileStream uploadFileStream = File.OpenRead(localFilePath))
+            using (FileStream uploadFileStream = File.OpenRead(fullPath))
             {
                 await blob.UploadAsync(uploadFileStream, true);
                 uploadFileStream.Close();
