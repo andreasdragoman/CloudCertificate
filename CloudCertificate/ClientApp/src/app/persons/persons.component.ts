@@ -8,6 +8,7 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from "@angular/material/button";
+import { BlobsService } from "../services/blobs.service";
 
 @Component({
     selector:'persons-component',
@@ -15,7 +16,9 @@ import { MatButton } from "@angular/material/button";
     styleUrls: ['./persons.component.scss']
 })
 export class PersonsComponent implements OnInit {
-    private notifier: NotifierService;
+    progress: number;
+    message: string;
+    blobsNames: string[];
 
     public personsList: Person[] = [];
     dataSource = new MatTableDataSource<Person>(this.personsList);
@@ -34,13 +37,13 @@ export class PersonsComponent implements OnInit {
     updatePersonActionStarted = false;
     currentEditingPersonName = "";
 
-    constructor (private personService: PersonService, notifierService: NotifierService,
+    constructor (private personService: PersonService, 
+        private blobsService: BlobsService,
         private toastr: ToastrService) {
-        this.notifier = notifierService;
     }
 
     ngOnInit(): void {
-        
+        this.getAllBlobs();
     }
 
     ngAfterViewInit() {
@@ -114,4 +117,44 @@ export class PersonsComponent implements OnInit {
         });
     }
 
+    uploadFile = (files: FileList | null) => {
+        if (files == null || files.length === 0) {
+          return;
+        }
+        let fileToUpload = <File>files[0];
+        console.log(files);
+
+        this.blobsService.uploadFile(fileToUpload).subscribe({
+            next: (res) => {
+                this.toastr.success('Successfully uploaded file');
+                this.getAllBlobs();
+            },
+            error: (res) => {
+                this.toastr.error('Unable to upload file');
+            }
+        });
+    }
+
+    deleteAllBlobs() {
+        this.blobsService.deleteAllBlobs().subscribe({
+            next: (res) => {
+                this.toastr.success('Successfully deleted all blobs');
+                this.getAllBlobs();
+            },
+            error: (res) => {
+                this.toastr.error('Unable to delete all blobs');
+            }
+        });
+    }
+
+    getAllBlobs() {
+        this.blobsService.getAllBlobs().subscribe({
+            next: (res) => {
+                this.blobsNames = res;
+            },
+            error: (res) => {
+                this.toastr.error('Unable to load blobs');
+            }
+        });
+    }
 }

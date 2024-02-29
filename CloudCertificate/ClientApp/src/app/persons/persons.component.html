@@ -87,6 +87,32 @@
   </div>
 </div>
 
+<div class="card" style="margin-bottom:15px; margin-top: 15px; width: 500px; background-color: antiquewhite;">
+  <div class="card-body">
+    <div>
+      <h5>Existing Blobs</h5>
+    </div>
+    <div>
+      <li *ngFor="let item of blobsNames">{{item}}</li>
+    </div>
+    <div>
+      <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+      <button type="button" class="btn btn-success" (click)="file.click()">Upload File to Blob container</button>
+    </div>
+    <div>
+      <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+      </span>
+      <span class="upload" *ngIf="message">
+        {{message}}
+      </span>
+    </div>
+    <div>
+      <button type="button" class="btn btn-success" (click)="deleteAllBlobs()">Delete all blobs</button>
+    </div>
+  </div>
+</div>
+
 
 <div *ngIf="updatePersonActionStarted"  class="card"  style="margin-top: 20px;">
   <div class="card-body">

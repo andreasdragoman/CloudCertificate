@@ -1,4 +1,5 @@
 using AzureSQL;
+using BlobExplorer;
 using CloudCertificate.Configs;
 using CloudCertificate.Services;
 using CosmosDB;
@@ -25,9 +26,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.Configure<CosmosDbSettings>(builder.Configuration.GetSection("CosmosDbSettings"));
 builder.Services.Configure<SQLSettings>(builder.Configuration.GetSection("SQLSettings"));
+builder.Services.Configure<BlobExplorerSettings>(builder.Configuration.GetSection("BlobExplorerSettings"));
 builder.Services.AddScoped<IQueueService, QueueService>();
 builder.Services.AddScoped<ICosmosDbService, CosmosDbService>();
 builder.Services.AddScoped<ISqlDbService, SqlDbService>();
+builder.Services.AddScoped<IBlobExplorerService, BlobExplorerService>();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

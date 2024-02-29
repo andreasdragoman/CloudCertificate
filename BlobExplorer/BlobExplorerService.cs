@@ -3,10 +3,13 @@ using Azure.Identity;
 using Azure.Storage.Blobs;
 using System;
 using System.IO;
+using Azure.Storage.Blobs.Models;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BlobExplorer
 {
-    public class BlobExplorerService
+    public class BlobExplorerService : IBlobExplorerService
     {
         private readonly BlobExplorerSettings _settings;
 
@@ -15,52 +18,103 @@ namespace BlobExplorer
             _settings = settings.Value;
         }
 
-        public async void UploadBlob(string filePath = "./dummy.txt", string blobName = "./dummy.txt")
+        public async Task UploadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt")
         {
-            //kk
-            var client = GetBlobServiceClient();
-            //Console.WriteLine($"Account URI: {client.Uri}");
-            var container = GetBlobContainerClient(client);
-            //var containerProps = await container.GetPropertiesAsync();
-            //Console.WriteLine($"Container URI: {container.Uri}");
-            //Console.WriteLine($"Container access level: {containerProps.Value.PublicAccess}");
-            //Console.WriteLine($"Container last modified: {containerProps.Value.LastModified}");
+            Console.WriteLine("Uploading to Blob storage as blob.\n");
 
+            string localFilePath = Path.Combine(localPath, fileName);
+            // Write text to the file
+            await File.WriteAllTextAsync(localFilePath, "Hello, World!");
+
+            var container = GetBlobContainerClient();
             var blob = GetBlobClient(container, blobName);
 
-            await blob.UploadAsync(filePath, true);
-            
+            //await blob.UploadAsync(localFilePath, true);
+
+            // Open the file and upload its data
+            using (FileStream uploadFileStream = File.OpenRead(localFilePath))
+            {
+                await blob.UploadAsync(uploadFileStream, true);
+                uploadFileStream.Close();
+            }
+
+            Console.WriteLine("\nThe file was uploaded. We'll verify by listing the blobs next.");
         }
 
-        public void ListBlobs(BlobContainerClient container)
+        public async Task<List<string>> GetBlobsNames()
         {
-            var blobs = container.GetBlobs();
-            foreach (var blob in blobs)
+            BlobContainerClient container = GetBlobContainerClient();
+            var blobsNames = new List<string>();
+
+            await foreach (var blob in container.GetBlobsAsync())
             {
                 Console.WriteLine($"Blob name: {blob.Name}");
+                blobsNames.Add(blob.Name);
             }
+            return blobsNames;
         }
 
-        public async void DownloadBlob(BlobContainerClient container, string fileName)
+        public async Task DownloadBlob(string localPath = "./data/", string fileName = "dummy.txt", string blobName = "dummy.txt")
         {
-            var blob = container.GetBlobClient(fileName);
-            var blobResponse = await blob.DownloadToAsync("./dummy2.txt");
-            var blobContent = blobResponse.Content.ToObjectFromJson<string>();
+            BlobContainerClient container = GetBlobContainerClient();
+
+            string localFilePath = Path.Combine(localPath, fileName);
+            string downloadFilePath = localFilePath.Replace(".txt", "DOWNLOADED.txt");
+            Console.WriteLine("\nDownloading blob to\n\t{0}\n", downloadFilePath);
+
+            var blob = container.GetBlobClient(blobName);
+
+            // Download the blob's contents and save it to a file
+            BlobDownloadInfo download = await blob.DownloadAsync();
+
+            using (FileStream downloadFileStream = File.OpenWrite(downloadFilePath))
+            {
+                await download.Content.CopyToAsync(downloadFileStream);
+                downloadFileStream.Close();
+            }
+
+            Console.WriteLine("Download complete.");
         }
 
-        public async void DeleteBlob(BlobContainerClient container, string fileName)
+        public async Task DeleteBlob(string blobName = "dummy.txt")
         {
-            var blob = container.GetBlobClient(fileName);
+            BlobContainerClient container = GetBlobContainerClient();
+
+            Console.WriteLine("\n\nDeleting blob container...");
+
+            var blob = container.GetBlobClient(blobName);
             await blob.DeleteIfExistsAsync();
+
+            Console.WriteLine("\n\nBlob container deleted.");
+
+            //Console.WriteLine("Deleting the local source and downloaded files...");
+            string localPath = "./data/";
+            string localFilePath = Path.Combine(localPath, blobName);
+            if(File.Exists(localFilePath))
+            {
+                File.Delete(localFilePath);
+            }
+            //Console.WriteLine("Finished cleaning up.");
+        }
+
+        public async Task DeleteAllBlobs()
+        {
+
+            var blobNames = await GetBlobsNames();
+            foreach (var blob in blobNames)
+            {
+                await DeleteBlob(blob);
+            }
         }
 
         public BlobServiceClient GetBlobServiceClient()
         {
-            return new(new Uri($"https://{_settings.AccountName}.blob.core.windows.net"), new DefaultAzureCredential());
+            return new(_settings.ConnectionString);
         }
 
-        public BlobContainerClient GetBlobContainerClient(BlobServiceClient blobServiceClient)
+        public BlobContainerClient GetBlobContainerClient()
         {
+            BlobServiceClient blobServiceClient = GetBlobServiceClient();
             return blobServiceClient.GetBlobContainerClient(_settings.ContainerName);
         }
 
