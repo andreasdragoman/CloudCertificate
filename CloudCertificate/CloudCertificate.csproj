@@ -17,6 +17,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>822fc8ac-39e7-4842-a8c0-d55d29555dff</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/c231f389-c62a-4508-a4a5-bb7e2a583331/resourceGroups/default-resorce-group/providers/microsoft.insights/components/andreas</ApplicationInsightsResourceId>
+	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+	<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
 
   <ItemGroup>
