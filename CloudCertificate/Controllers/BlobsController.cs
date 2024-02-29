@@ -33,6 +33,11 @@ namespace CloudCertificate.Controllers
             try
             {
                 var localPath = "./data/";
+                if (!Directory.Exists(localPath))
+                {
+                    Directory.CreateDirectory(localPath);
+                }
+
                 if (file.Length > 0)
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
